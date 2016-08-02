@@ -17,5 +17,5 @@
 - [x] Create mongo database on mongolab
 - [x] Create project on twitter to be able to log into the project (and share it in the future)
 - [x] Comment other sign in / sign up way (facebook / google / email) for now
-- [ ] Create the models 
+- [x] Create the models 
 - [ ] Create the template (with a custom menu according to the authentication)

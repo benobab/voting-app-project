@@ -1,7 +1,7 @@
 {
-  "name": "easy-node-auth-setup-local",
+  "name": "voting-app-project",
   "version": "0.0.1",
-  "description": "Node project to play a little with passport and setup a blank project dedicated to auth.",
+  "description": "Voting app project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,9 +19,6 @@
     "mongoose": "^4.5.8",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
-    "passport-facebook": "^2.1.1",
-    "passport-google-oauth": "^1.0.0",
-    "passport-local": "^1.0.0",
     "passport-twitter": "^1.0.4",
     "path": "^0.12.7",
     "pug": "^2.0.0-beta4"
