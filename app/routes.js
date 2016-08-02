@@ -7,7 +7,7 @@ module.exports = function(app,passport){
         res.render('index.pug'); //Load the index.pug file
     });
     
-    //====================================================================================================
+    /*//====================================================================================================
     //Login Page ========================================================================================
     //====================================================================================================
     app.get('/login',function(req,res){
@@ -32,7 +32,7 @@ module.exports = function(app,passport){
         successRedirect:'/profile', // redirect to the secure profile section
         failureRedirect:'/signup', // redirect back to signup page
         failureFlash:true // Allow flash messages
-    }));
+    }));*/
     
     //==========================================================================
     //Profile Page =============================================================
@@ -45,7 +45,7 @@ module.exports = function(app,passport){
         });
     });
     
-    
+    /*
     // =========================================================================
     // FACEBOOK ROUTES =========================================================
     // =========================================================================
@@ -57,7 +57,7 @@ module.exports = function(app,passport){
         passport.authenticate('facebook', {
             successRedirect : '/profile',
             failureRedirect : '/'
-        }));
+        }));*/
         
     // =========================================================================
     // TWITTER ROUTES ==========================================================
@@ -72,7 +72,7 @@ module.exports = function(app,passport){
             failureRedirect : '/'
         }));
         
-    // =========================================================================
+    /*// =========================================================================
     // GOOGLE ROUTES ===========================================================
     // =========================================================================
     // route for google authentication and login
@@ -111,7 +111,7 @@ module.exports = function(app,passport){
             passport.authorize('facebook', {
                 successRedirect : '/profile',
                 failureRedirect : '/'
-            }));
+            }));*/
 
     // twitter --------------------------------
 
@@ -126,7 +126,7 @@ module.exports = function(app,passport){
             }));
 
 
-    // google ---------------------------------
+    /*// google ---------------------------------
 
         // send to google to do the authentication
         app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
@@ -164,7 +164,7 @@ module.exports = function(app,passport){
         user.save(function(err) {
             res.redirect('/profile');
         });
-    });
+    });*/
 
     // twitter --------------------------------
     app.get('/unlink/twitter', function(req, res) {
@@ -175,7 +175,7 @@ module.exports = function(app,passport){
         });
     });
 
-    // google ---------------------------------
+   /* // google ---------------------------------
     app.get('/unlink/google', function(req, res) {
         var user          = req.user;
         user.google.token = undefined;
@@ -184,7 +184,7 @@ module.exports = function(app,passport){
         });
     });
     
-    
+    */
     
     //==========================================================================
     //Logout ===================================================================
