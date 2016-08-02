@@ -1,0 +1,65 @@
+html
+        head
+                title Node Authentication Playground
+                link(href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', rel='stylesheet')
+                link(href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css', rel='stylesheet')
+                link(href='/css/boostrap-social.css', rel='stylesheet')
+                style.
+                        body {
+                                padding-top:80px;
+                            }
+                        .well {
+                                word-wrap: break-word;
+                            }
+        body
+                .container
+                        .col-sm-6.col-sm-offset-3
+                                div.page-header.text-center
+                                        h1 #[span.fa.fa-anchor] Profile Page
+                                        
+                                        a(href="/logout").btn.btn-danger Logout
+                                div.row
+                                    div.col-sm-6
+                                        div.well
+                                                h3 #[span.fa.fa-user  Local]
+                                                if user.local.email
+                                                    p.
+                                                            #[strong id: #{user._id}] #[br]
+                                                            #[strong email: #{user.local.email}] #[br]
+                                                            #[strong password: #{user.local.password}]
+                                                    a(href='/unlink/local').btn.btn-danger Unlink
+                                                else 
+                                                    a(href='/connect/local').btn.btn-success Link
+                                    div.col-sm-6
+                                        div.well
+                                            h3.text-primary #[span.fa.fa-facebook  Facebook]
+                                            if user.facebook.token
+                                                p.
+                                                    #[strong id: #{user.facebook.id}] #[br]
+                                                    #[strong email: #{user.facebook.email}] #[br]
+                                                    #[strong name: #{user.facebook.name}] 
+                                                a(href='/unlink/facebook').btn.btn-danger Unlink
+                                            else
+                                                a(href='/connect/facebook').btn.btn-success Link
+                                    div.col-sm-6
+                                        div.well
+                                            h3.text-primary #[span.fa.fa-twitter  Twitter]
+                                            if user.twitter.token
+                                                p.
+                                                    #[strong id: #{user.twitter.id}] #[br]
+                                                    #[strong username: @#{user.twitter.username}] #[br]
+                                                    #[strong name: #{user.twitter.displayName}]
+                                                a(href='/unlink/twitter').btn.btn-danger Unlink
+                                            else
+                                                a(href='/connect/twitter').btn.btn-success Link
+                                    div.col-sm-6
+                                        div.well
+                                            h3.text-danger #[span.fa.fa-google  Google]
+                                            if user.google.token
+                                                p.
+                                                    #[strong id: #{user.google.id}] #[br]
+                                                    #[strong name: #{user.google.name}] #[br]
+                                                    #[strong email: #{user.google.email}] 
+                                                a(href='/unlink/google').btn.btn-danger Unlink
+                                            else
+                                                a(href='/connect/google').btn.btn-success Link
