@@ -32,7 +32,7 @@ module.exports = function(app,passport){
         successRedirect:'/profile', // redirect to the secure profile section
         failureRedirect:'/signup', // redirect back to signup page
         failureFlash:true // Allow flash messages
-    }));*/
+    }));
     
     //==========================================================================
     //Profile Page =============================================================
@@ -45,7 +45,7 @@ module.exports = function(app,passport){
         });
     });
     
-    /*
+    
     // =========================================================================
     // FACEBOOK ROUTES =========================================================
     // =========================================================================
@@ -111,7 +111,7 @@ module.exports = function(app,passport){
             passport.authorize('facebook', {
                 successRedirect : '/profile',
                 failureRedirect : '/'
-            }));*/
+            }));
 
     // twitter --------------------------------
 
@@ -126,7 +126,7 @@ module.exports = function(app,passport){
             }));
 
 
-    /*// google ---------------------------------
+    // google ---------------------------------
 
         // send to google to do the authentication
         app.get('/connect/google', passport.authorize('google', { scope : ['profile', 'email'] }));
@@ -164,7 +164,7 @@ module.exports = function(app,passport){
         user.save(function(err) {
             res.redirect('/profile');
         });
-    });*/
+    });
 
     // twitter --------------------------------
     app.get('/unlink/twitter', function(req, res) {
@@ -175,7 +175,7 @@ module.exports = function(app,passport){
         });
     });
 
-   /* // google ---------------------------------
+    // google ---------------------------------
     app.get('/unlink/google', function(req, res) {
         var user          = req.user;
         user.google.token = undefined;
@@ -185,23 +185,7 @@ module.exports = function(app,passport){
     });
     
     */
-    
-    //==========================================================================
-    //Poll =====================================================================
-    //==========================================================================
-    app.get('/poll/all',function(req,res){
-        //Get all poll
-    });
-    app.get('/poll/new',function(req,res){
-        res.redirect('create');
-    });
-    app.post('/poll/new',function(req,res) {
-        //Get the poll from the req
-        //Insert it into the database
-       //If success -> redirect to the poll details
-       //If fails -> display an error message in the same page
-    });
-    
+
     
     //==========================================================================
     //Logout ===================================================================
@@ -211,7 +195,7 @@ module.exports = function(app,passport){
         res.redirect('/');
     });
     
-    //====================================================================================================
+    /*//====================================================================================================
     //Route middleware to make sure a user is logged in ==================================================
     //====================================================================================================
     function isLoggedIn(req,res,next){
@@ -219,6 +203,6 @@ module.exports = function(app,passport){
             return next();
         }
         res.redirect('/');
-    }
+    }*/
     
 }
