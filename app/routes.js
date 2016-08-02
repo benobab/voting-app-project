@@ -4,7 +4,7 @@ module.exports = function(app,passport){
     //Home Page ========================================================================================
     //====================================================================================================
     app.get('/',function(req,res){
-        res.render('index.pug'); //Load the index.pug file
+        res.render('index.pug',{isauthenticated:req.isAuthenticated()}); //Load the index.pug file
     });
     
     /*//====================================================================================================

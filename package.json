@@ -20,7 +20,7 @@
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
-    "path": "^0.12.7",
+    "path": "^0.12.7", 
     "pug": "^2.0.0-beta4"
   }
 }
