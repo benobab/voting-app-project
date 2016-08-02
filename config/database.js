@@ -1,3 +1,3 @@
 module.exports = {
-    'url' : 'mongodb://auth-playground:auth-playground@ds011158.mlab.com:11158/auth-playground-benobab'
+    'url' : 'mongodb://voting-app-user:voting-app-user@ds139985.mlab.com:39985/voting-app-project'
 }

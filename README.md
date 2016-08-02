@@ -11,10 +11,10 @@
 **Unauthenticated User**
 - [ ] As an unauthenticated or authenticated user, I can see and vote on everyone's polls.
 - [ ] As an unauthenticated or authenticated user, I can see the results of polls in chart form. (This could be implemented using Chart.js or Google Charts.)
-- 
+
 ### Tasks
 - [x] Initialise the project 
-- [ ] Create mongo database on mongolab
-- [ ] Create project on google cloud console to be able to log into the project 
+- [x] Create mongo database on mongolab
+- [ ] Create project on twitter to be able to log into the project (and share it in the future)
 - [ ] Create the models 
 - [ ] Create the template (with a custom menu according to the authentication)
