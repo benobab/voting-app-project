@@ -20,15 +20,20 @@ html
         #bs-example-navbar-collapse-1.collapse.navbar-collapse
           ul.nav.navbar-nav.navbar-right
             li
-              a(href='/polls/all').btn.btn-success.navbar-btn(type='button', style='background-color:green; color:white; margin:5px;')
+              a(href='/poll/all').btn.btn-success.navbar-btn(type='button', style='background-color:green; color:white; margin:5px;')
                 i.fa.fa-comments
                 |  Polls
-            li
-                if !isauthenticated
+            
+            if !isauthenticated
+                li
                   a(href='/auth/twitter').btn.navbar-btn(type='button', style='background-color:#2AA3EF; color:white; margin:5px;')
                     i.fa.fa-twitter
                     |  Sign in
-                else
+            else
+                li
+                    a(href='/poll/new').btn.btn-primary.navbar-btn(type='button', style='color:white; margin:5px;')
+                    | New Poll
+                li
                    a(href='/logout').btn.btn-danger.navbar-btn(type='button', style='color:white; margin:5px;')
                     | Logout
     block content

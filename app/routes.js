@@ -187,6 +187,23 @@ module.exports = function(app,passport){
     */
     
     //==========================================================================
+    //Poll =====================================================================
+    //==========================================================================
+    app.get('/poll/all',function(req,res){
+        //Get all poll
+    });
+    app.get('/poll/new',function(req,res){
+        res.redirect('create');
+    });
+    app.post('/poll/new',function(req,res) {
+        //Get the poll from the req
+        //Insert it into the database
+       //If success -> redirect to the poll details
+       //If fails -> display an error message in the same page
+    });
+    
+    
+    //==========================================================================
     //Logout ===================================================================
     //==========================================================================
     app.get('/logout',function(req,res){
