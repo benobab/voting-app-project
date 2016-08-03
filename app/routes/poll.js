@@ -16,6 +16,15 @@ module.exports = function(app){
         });
     });
     
+    app.get('/poll/my',isLoggedIn,function(req,res){
+       Poll.find({id_creator:req.user.twitter.id},function(err,polls){
+           if(err) 
+            throw err;
+           console.log("My Polls: "+polls);
+           res.status(200).render('mypolls',{polls:polls});
+       }) 
+    });
+    
     app.get('/poll/new',isLoggedIn,function(req,res){
         console.log("redirect to create");
         res.render('create');
@@ -30,6 +39,8 @@ module.exports = function(app){
         if(req.body.answers){
             var answers = req.body.answers.split("\r\n");
         }
+        console.log(req.user);
+        poll.id_creator = req.user.twitter.id;
         
         poll.save(function(err){
             if (err) throw err;
@@ -52,6 +63,23 @@ module.exports = function(app){
         //Insert it into the database
        //If success -> redirect to the poll details
        //If fails -> display an error message in the same page
+    });
+    
+    app.get('/poll/delete/:id',isLoggedIn,function(req, res) {
+       //Check if this is the owner
+       var id = req.params.id;
+       Poll.findById(id,function(err, poll) {
+            if(err) {
+                console.log(err);
+                res.render('mypolls',{err:err});
+            }
+            else if(poll.id_creator === req.user.twitter.id) {
+                poll.remove(function(err){
+                   if(err) throw err;
+                   res.redirect('/poll/my');
+                });
+            }
+       });
     });
     
     app.get('/poll/:id',isLoggedIn,function(req,res){

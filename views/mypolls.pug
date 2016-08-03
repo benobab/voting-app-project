@@ -4,6 +4,8 @@ block content
         .container
                 .jumbotron.text-center
                         h1.fa.fa-comments Let's share your thoughts
+                if err
+                    p.text-danger err
                 if polls
                         .jumbotron.text-center
                             if polls.length === 0
@@ -12,4 +14,4 @@ block content
                                 each poll in polls 
                                         a(href='/poll/' + poll._id)
                                                 div.well
-                                                        span #{poll.title}
+                                                        span #{poll.title} #[a(href="/poll/delete/" + poll._id).btn.btn-danger.delete-button Delete]

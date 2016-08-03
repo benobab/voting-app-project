@@ -20,6 +20,6 @@
 - [x] Create the models 
 - [x] Create the template (with a custom menu according to the authentication) //Did it with middleware and pass a variable into the session
 - [x] Mobile menu collapsing
-- [ ] Init the routes
+- [x] Init the routes
 - [x] Separate routes according to the models concerned
 - [ ] Add tests ?

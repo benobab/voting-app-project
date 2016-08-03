@@ -35,6 +35,10 @@ html
                     i.fa.fa-plus
                     |  New Poll
                 li
+                  a(href='/poll/my').btn.btn-primary.navbar-btn(type='button').navbar-btn-right
+                    i.fa.fa-user
+                    |  My Polls
+                li
                    a(href='/logout').btn.btn-danger.navbar-btn(type='button').navbar-btn-right
                     i.fa.fa-sign-out
                     |  Logout
@@ -45,3 +49,5 @@ html
     script(src='/js/bootstrap.js')
 
 
+  footer
+    p.text-center provided by #[a(href='http://www.github.com/benobab') @Benobab]
