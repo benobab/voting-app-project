@@ -27,9 +27,6 @@ module.exports = function(app){
         if(req.body.title){
             poll.title = req.body.title;
         }
-        if(req.body.public){
-            poll.isPublic = true;
-        }
         if(req.body.answers){
             var answers = req.body.answers.split("\r\n");
         }
@@ -68,13 +65,13 @@ module.exports = function(app){
             Answer.find({id_poll:poll._id},function(err,answers){
                 if(err) throw err;
                 console.log(JSON.stringify({
-                poll:poll,
-                answers:answers
-                }));
+                                                poll:poll,
+                                                answers:answers
+                                            }));
                 res.render('detail',{
-                poll:poll,
-                answers:answers
-            });
+                                        poll:poll,
+                                        answers:answers
+                                    });
             });
        });
     });
