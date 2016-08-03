@@ -24,5 +24,8 @@
 - [x] Separate routes according to the models concerned
 - [ ] Detail of a poll
 - [ ] Be able to vote
-- [ ] Check if someone has already voted (ip address OR twitter id) 
+- [ ] Be able to add a custom option
+- [ ] Avoid reloading the whole page each time we try to vote
+- [ ] Check if someone has already voted (ip address OR twitter id)
+- [ ] Display chart results
 - [ ] Add tests ?
