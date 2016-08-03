@@ -19,6 +19,7 @@
 - [x] Comment other sign in / sign up way (facebook / google / email) for now
 - [x] Create the models 
 - [x] Create the template (with a custom menu according to the authentication)
+- [x] Mobile menu collapsing
 - [ ] Init the routes
 - [ ] Separate routes according to the models concerned
 - [ ] Add tests ?

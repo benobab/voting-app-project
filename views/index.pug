@@ -4,4 +4,9 @@ block content
         .container
                 .jumbotron.text-center
                         h1.fa.fa-comments Let's share your thoughts
-                        
+                if polls
+                        .jumbotron.text-center 
+                                each poll in polls 
+                                        a(href='/poll/' + poll._id)
+                                                div.well
+                                                        span #{poll.title}

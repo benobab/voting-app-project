@@ -6,7 +6,7 @@ html
     link(href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css', rel='stylesheet')
     link(rel='stylesheet', href='/css/style.css')
   body
-    nav.navbar.navbar-default
+    nav.navbar.navbar-inverse
       .container-fluid
         // Brand and toggle get grouped for better mobile display
         .navbar-header
@@ -31,7 +31,7 @@ html
                     |  Sign in
             else
                 li
-                    a(href='/poll/new').btn.btn-primary.navbar-btn(type='button', style='color:white; margin:5px;')
+                  a(href='/poll/new').btn.btn-primary.navbar-btn(type='button', style='color:white; margin:5px;')
                     | New Poll
                 li
                    a(href='/logout').btn.btn-danger.navbar-btn(type='button', style='color:white; margin:5px;')

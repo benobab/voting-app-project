@@ -1,0 +1,15 @@
+extends layout.pug
+
+block content
+        .container
+                .jumbotron.text-center
+                        h1.fa.fa-comments What a poll!
+                .jumbotron
+                        h2 #{poll.title}
+                        form(name="voteforpoll" action="/poll/answer" method="post")
+                            .dropdown
+                                button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                                | Participate to Poll
+                                .dropdown-menu(aria-labelledby='dropdownMenuButton')
+                                    each el in answers
+                                        a.dropdown-item(href='#') #{el.title}

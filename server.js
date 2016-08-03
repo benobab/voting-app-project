@@ -37,12 +37,18 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
+//Put in every response the isAuthenticated OR Not, for the jade template
+
 
 //Routes =====================================================================================================
+app.use(function(req,res,next){
+    res.locals.isauthenticated = req.isAuthenticated();
+    next();
+});
 var routes = require("./app/routes/routes");
 routes(app,passport); //Lod the routes and pass in our app and passport
 var pollRoutes = require("./app/routes/poll");
-app.use('/poll',pollRoutes);
+pollRoutes(app);
 //Launch =====================================================================================================
 app.listen(port,function(){
     console.log("App running on "+ port + " let's start doing some magic");

@@ -4,7 +4,10 @@ module.exports = function(app,passport){
     //Home Page ========================================================================================
     //====================================================================================================
     app.get('/',function(req,res){
-        res.render('index.pug',{isauthenticated:req.isAuthenticated()}); //Load the index.pug file
+        if(req.isAuthenticated()){
+            res.redirect('/poll/all');
+        }
+        res.render('index.pug'); //Load the index.pug file
     });
     
     /*//====================================================================================================
@@ -68,7 +71,7 @@ module.exports = function(app,passport){
     // handle the callback after twitter has authenticated the user
     app.get('/auth/twitter/callback',
         passport.authenticate('twitter', {
-            successRedirect : '/profile',
+            successRedirect : '/',
             failureRedirect : '/'
         }));
         
@@ -205,4 +208,13 @@ module.exports = function(app,passport){
         res.redirect('/');
     }*/
     
+    //====================================================================================================
+    //Route middleware to make sure a user is logged in ==================================================
+    //====================================================================================================
+    function isLoggedIn(req,res,next){
+        if(req.isAuthenticated()){
+            return next();
+        }
+        res.redirect('/');
+    }
 }

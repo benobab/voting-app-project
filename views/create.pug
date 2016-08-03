@@ -3,5 +3,20 @@ extends layout.pug
 block content
         .container
                 .jumbotron.text-center
-                        h1.fa.fa-comments Let's share your thoughts
-                        
+                        h1.fa.fa-comments Let's create a new poll
+                .jumbotron
+                        form(name="newpoll", action="/poll/new", method="post")
+                                div.form-group
+                                        label Title
+                                        input(type="text", name="title",required).form-control
+                                div.form-group
+                                        label Answers (separated by new line)
+                                        textarea(name="answers", rows="5",required).form-control
+                                div.form-group
+                                        div.checkbox
+                                                label
+                                                        input(type='checkbox', value='', name="public")
+                                                        | Public
+                                div.text-center
+                                        button(type="submit").btn.btn-success.btn-lg Create     
+                                
