@@ -35,7 +35,7 @@ html
                     i.fa.fa-plus
                     |  New Poll
                 li
-                  a(href='/poll/my').btn.btn-primary.navbar-btn(type='button').navbar-btn-right
+                  a(href='/poll/my').btn.btn-warning.navbar-btn(type='button').navbar-btn-right
                     i.fa.fa-user
                     |  My Polls
                 li
@@ -43,11 +43,12 @@ html
                     i.fa.fa-sign-out
                     |  Logout
                 li 
-                  
+                  a
     block content
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
     script(src='/js/bootstrap.js')
 
 
   footer
-    p.text-center provided by #[a(href='http://www.github.com/benobab') @Benobab]
+    div
+      p.text-center Provided by #[a(href='http://www.github.com/benobab') @Benobab]

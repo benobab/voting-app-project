@@ -2,6 +2,7 @@ module.exports = function(app){
     
     var Poll = require("../models/poll");
     var Answer = require("../models/answer");
+    var Participation = require("../models/participation");
     //==========================================================================
     //Poll =====================================================================
     //==========================================================================
@@ -43,7 +44,10 @@ module.exports = function(app){
         poll.id_creator = req.user.twitter.id;
         
         poll.save(function(err){
-            if (err) throw err;
+            if(err){
+                    handleError(req,res,err);
+                    return;
+                }
             //Saved the answers
             answers.forEach(function(element){
                var answer = new Answer({
@@ -52,8 +56,9 @@ module.exports = function(app){
                });
                answer.save(function(err){
                    if(err){
-                       console.log(err);
-                   }
+                    handleError(req,res,err);
+                    return;
+                }
                });
             });
             res.status(200).redirect('/poll/'+poll._id);
@@ -82,16 +87,22 @@ module.exports = function(app){
        });
     });
     
-    app.get('/poll/:id',isLoggedIn,function(req,res){
+    app.get('/poll/:id',function(req,res){
        //Get the poll from the req
         //Insert it into the database
        //If success -> redirect to the poll details
        //If fails -> display an error message in the same page
        Poll.findById(req.params.id,function(err,poll){
-            if(err) throw err;
+            if(err){
+                handleError(req,res,err);
+                return;
+            }
             console.log(poll);
             Answer.find({id_poll:poll._id},function(err,answers){
-                if(err) throw err;
+                if(err){
+                    handleError(req,res,err);
+                    return;
+                }
                 console.log(JSON.stringify({
                                                 poll:poll,
                                                 answers:answers
@@ -104,6 +115,56 @@ module.exports = function(app){
        });
     });
     
+    app.post('/poll/:id/answer/',function(req,res){
+        console.log(req.body); 
+        var answerSelected = req.body.answerselected;
+        //Find if a participation exists
+        //If not, add one
+        if(req.isAuthenticated()){
+            Participation.find({id_poll:req.params.id,id_user:req.user.twitter.id},function(err, participation) {
+            if(err){
+                handleError(req,res,err);  
+                return;
+            }
+            if(participation.length > 0){
+                //Send a message saying that you can't vote twice
+                console.log(participation);
+                console.log("A participation already exists");
+            }
+            var participation = new Participation({
+                id_user:req.user.twitter.id,
+                id_answer:answerSelected,
+                id_poll:req.params.id
+            });
+        });
+        }else{
+            Participation.find({id_poll:req.params.id,ip_address:req.headers['x-forwarded-for']},function(err, participation) {
+            if(err){
+                handleError(req,res,err);  
+                return;
+            }
+            if(participation.length > 0){
+                //Send a message saying that you can't vote twice
+                console.log(participation);
+                console.log("A participation already exists");
+            }
+            var participation = new Participation({
+                id_address:req.headers['x-forwarded-for'],
+                id_answer:answerSelected,
+                id_poll:req.params.id
+            });
+            participation.save(function(err){
+                if(err){
+                    handleError(req,res,err);
+                    return;
+                }  
+                res.redirect('/poll/'+req.params.id); 
+            });
+        });
+        }
+        
+    });
+    
     
     //====================================================================================================
     //Route middleware to make sure a user is logged in ==================================================
@@ -113,5 +174,12 @@ module.exports = function(app){
             return next();
         }
         res.redirect('/');
+    }
+    
+    function handleError(req,res,err){
+        res.render('error',{
+                            error:err,
+                            message:""
+                            });
     }
 };

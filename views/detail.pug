@@ -4,12 +4,17 @@ block content
         .container
                 .jumbotron.text-center
                         h1.fa.fa-comments What a poll!
-                .jumbotron
+                .container.jumbotron
                         h2 #{poll.title}
-                        form(name="voteforpoll" action="/poll/answer" method="post")
-                            .dropdown
-                                button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
-                                | Participate to Poll
-                                .dropdown-menu(aria-labelledby='dropdownMenuButton')
-                                    each el in answers
-                                        a.dropdown-item(href='#') #{el.title}
+                        .col-sm-6.well
+                            form(name="voteforpoll" action="/poll/"+poll._id+"/answer" method="post")
+                                .form-group
+                                    .col-xs-6
+                                      label(for='developer-name')
+                                        select(name="answerselected").form-control
+                                          each answer in answers
+                                            option(value=answer._id) #{answer.title}
+                                div.text-center.col-xs-6
+                                            button(type="submit").btn.btn-success.btn-lg Vote 
+                        .col-sm-6.well
+                            p no result to display yet

@@ -22,4 +22,7 @@
 - [x] Mobile menu collapsing
 - [x] Init the routes
 - [x] Separate routes according to the models concerned
+- [ ] Detail of a poll
+- [ ] Be able to vote
+- [ ] Check if someone has already voted (ip address OR twitter id) 
 - [ ] Add tests ?
