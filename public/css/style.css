@@ -2,7 +2,9 @@
     color:white !important;
     margin:5px;
 }
-
+body{
+    padding-top: 70px;/*To avoid content under the fixed navbar*/ 
+}
 
 .navbar-btn-right-twitter{
     color:white !important;

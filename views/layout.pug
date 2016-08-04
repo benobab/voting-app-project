@@ -6,7 +6,7 @@ html
     link(href='//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css', rel='stylesheet')
     link(rel='stylesheet', href='/css/style.css')
   body
-    nav.navbar.navbar-inverse
+    nav.navbar.navbar-inverse.navbar-fixed-top
       .container-fluid
         // Brand and toggle get grouped for better mobile display
         .navbar-header
@@ -29,6 +29,8 @@ html
                   a(href='/auth/twitter').btn.navbar-btn(type='button').navbar-btn-right-twitter
                     i.fa.fa-twitter
                     |  Sign in
+                li 
+                  a
             else
                 li
                   a(href='/poll/new').btn.btn-primary.navbar-btn(type='button').navbar-btn-right
