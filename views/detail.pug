@@ -14,13 +14,26 @@ block content
                                           each answer in answers
                                             option(value=answer._id) #{answer.title}
                                 div.text-center.col-xs-6
-                                            button(type="submit").btn.btn-success.btn-lg Vote 
+                                            button(type="submit").btn.btn-success.btn-lg Vote
+                            a(href="https://twitter.com/intent/tweet?text=Go%20See%20This%20%Poll%20https://voting-app-project-benobab.c9users.io/poll/" + poll._id).btn.navbar-btn(type='button').twitter-share
+                                i.fa.fa-twitter
+                                |  Share it
                         .container.col-sm-6.well
                             p no result to display yet
                             canvas#mychart(width="400", height="400")
                 script(type='text/javascript').
                     /*Function to update the chart*/
                     $(document).ready(function(){
+                        /*To run this function when the page is loaded ;-)*/
+                        window.onload = function() {
+                          updateChart();
+                        };
+                        $('#shareOnTwitter').on('click', function(){
+                            var pollUrl = window.location.href;
+                            var text = "https://twitter.com/intent/tweet?text=Go%20See%20This%20%Poll%20https://voting-app-project-benobab.c9users.io/poll/" + poll._id;
+                            window.location.href = text;
+                        });
+                        
                         var updateChart = function(){
                         var ctx = $('#mychart'); //The chart that is going to be updated
                         console.log("I'll update the chart");
