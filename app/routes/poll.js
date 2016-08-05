@@ -130,23 +130,35 @@ module.exports = function(app){
                 //Send a message saying that you can't vote twice
                 console.log(participation);
                 console.log("A participation already exists");
+                res.end("A participation already exists");
             }
             var participation = new Participation({
                 id_user:req.user.twitter.id,
                 id_answer:answerSelected,
                 id_poll:req.params.id
             });
+            participation.save(function(err){
+                if(err){
+                    handleError(req,res,err);
+                    return;
+                } 
+                res.end("Thank you for your vote!");
+                /*res.redirect('/poll/'+req.params.id);*/ 
+            });
         });
         }else{
-            Participation.find({id_poll:req.params.id,ip_address:req.headers['x-forwarded-for']},function(err, participation) {
+            Participation.find({id_poll:req.params.id,ip_address:req.headers['x-forwarded-for']},function(err, parti) {
             if(err){
                 handleError(req,res,err);  
                 return;
             }
-            if(participation.length > 0){
+            console.log(req.headers['x-forwarded-for'] + " trying to vote");
+            console.log("Participation found: "+parti);
+            if(parti.length > 0){
                 //Send a message saying that you can't vote twice
-                console.log(participation);
+                console.log(parti);
                 console.log("A participation already exists");
+                res.end("A participation already exists");
             }
             var participation = new Participation({
                 id_address:req.headers['x-forwarded-for'],
@@ -157,8 +169,10 @@ module.exports = function(app){
                 if(err){
                     handleError(req,res,err);
                     return;
-                }  
-                res.redirect('/poll/'+req.params.id); 
+                }
+                console.log(JSON.stringify(participation));
+                res.end("Thank you for your vote!");
+                /*res.redirect('/poll/'+req.params.id);*/ 
             });
         });
         }

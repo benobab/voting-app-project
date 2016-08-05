@@ -7,7 +7,7 @@ block content
                 .container.jumbotron
                         h2 #{poll.title}
                         .col-sm-6.well
-                            form(name="voteforpoll" action="/poll/"+poll._id+"/answer" method="post")
+                            form(id="votingpoll" name="voteforpoll" action="/poll/"+poll._id+"/answer" method="post")
                                 .form-group
                                     .col-xs-6
                                       label(for='developer-name')
@@ -18,3 +18,14 @@ block content
                                             button(type="submit").btn.btn-success.btn-lg Vote 
                         .col-sm-6.well
                             p no result to display yet
+                script(type='text/javascript').
+                    $(document).ready(function(){
+                        $('#votingpoll').submit(function(event) {
+                        console.log("In the good func");
+                            event.preventDefault(); // Stops browser from navigating away from page
+                            var url = "/poll/"+"#{poll._id}"+"/answer";
+                            $.post(url, function( data ) {
+                              alert(data);
+                            });
+                        });
+                    });
