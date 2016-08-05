@@ -5,7 +5,8 @@ var mongoose = require("mongoose");
 var participationSchema = mongoose.Schema({
     id_user:String,
     ip_address:String,
-    id_answer:String
+    id_answer:String,
+    id_poll:String
 });
 
 // create the model for users and expose it to our app

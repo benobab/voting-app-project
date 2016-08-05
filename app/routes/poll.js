@@ -121,18 +121,19 @@ module.exports = function(app){
         //Find if a participation exists
         //If not, add one
         if(req.isAuthenticated()){
-            Participation.find({id_poll:req.params.id,id_user:req.user.twitter.id},function(err, participation) {
+            Participation.find({id_poll:req.params.id,id_user:req.user.twitter.id},function(err, parti) {
             if(err){
                 handleError(req,res,err);  
                 return;
             }
-            if(participation.length > 0){
+            console.log("User authenticated: "+ req.user.twitter.id + " and participation found: " + parti);
+            if(parti.length){
                 //Send a message saying that you can't vote twice
-                console.log(participation);
+                console.log(parti);
                 console.log("A participation already exists");
-                res.end("A participation already exists");
-            }
-            var participation = new Participation({
+                res.end("You already voted");
+            }else{
+                var participation = new Participation({
                 id_user:req.user.twitter.id,
                 id_answer:answerSelected,
                 id_poll:req.params.id
@@ -145,6 +146,8 @@ module.exports = function(app){
                 res.end("Thank you for your vote!");
                 /*res.redirect('/poll/'+req.params.id);*/ 
             });
+            }
+            
         });
         }else{
             Participation.find({id_poll:req.params.id,ip_address:req.headers['x-forwarded-for']},function(err, parti) {
@@ -153,18 +156,18 @@ module.exports = function(app){
                 return;
             }
             console.log(req.headers['x-forwarded-for'] + " trying to vote");
-            console.log("Participation found: "+parti);
-            if(parti.length > 0){
+            if(parti.length){
                 //Send a message saying that you can't vote twice
                 console.log(parti);
                 console.log("A participation already exists");
-                res.end("A participation already exists");
-            }
-            var participation = new Participation({
-                id_address:req.headers['x-forwarded-for'],
+                res.end("You already voted");
+            }else{
+                var participation = new Participation({
+                ip_address:req.headers['x-forwarded-for'],
                 id_answer:answerSelected,
                 id_poll:req.params.id
             });
+            console.log("Will save this participation: "+JSON.stringify(participation));
             participation.save(function(err){
                 if(err){
                     handleError(req,res,err);
@@ -174,6 +177,8 @@ module.exports = function(app){
                 res.end("Thank you for your vote!");
                 /*res.redirect('/poll/'+req.params.id);*/ 
             });
+            }
+            
         });
         }
         
