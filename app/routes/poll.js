@@ -75,31 +75,15 @@ module.exports = function(app){
     });
     
     app.get('/poll/:id',function(req,res){
-       //Get the poll from the req
-        //Insert it into the database
-       //If success -> redirect to the poll details
-       //If fails -> display an error message in the same page
-       Poll.findById(req.params.id,function(err,poll){
+        var repo = new PollRepository();
+        repo.findById(req.params.id,function(err,poll){
             if(err){
                 handleError(req,res,err);
                 return;
+            }else{
+                res.render('detail',poll);
             }
-            console.log(poll);
-            Answer.find({id_poll:poll._id},function(err,answers){
-                if(err){
-                    handleError(req,res,err);
-                    return;
-                }
-                console.log(JSON.stringify({
-                                                poll:poll,
-                                                answers:answers
-                                            }));
-                res.render('detail',{
-                                        poll:poll,
-                                        answers:answers
-                                    });
-            });
-       });
+        })
     });
     
     app.post('/poll/:id/add',function(req, res) {

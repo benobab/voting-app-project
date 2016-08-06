@@ -34,7 +34,7 @@ function getPollById(id_poll,callback){
                 }
             console.log(poll);
             //Now that we found the poll, we need its answers
-            getAnswersForPoll(poll._id,function(err,answers){
+            getAnswersForPoll(poll._id,function(err,data){
                 if(err){
                     callback(err);
                     return;
@@ -42,7 +42,7 @@ function getPollById(id_poll,callback){
                 //Success
                 callback(null,{
                     poll:poll,
-                    answers:answers
+                    answers:data.answers
                 });
             });
        });
