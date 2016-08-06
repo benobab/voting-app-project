@@ -1,5 +1,6 @@
 var Poll = require('../models/poll');
 var Answer = require('../models/answer');
+var Participation = require("../models/participation");
 
 function PollRepository(){
     this.getAllPolls = getAllPolls;
@@ -7,6 +8,8 @@ function PollRepository(){
     this.getPollsOfUser = getPollsOfUser;
     this.getAnswers = getAnswersForPoll;
     this.deletePollById = deletePollById;
+    this.hasAlreadyAnsweredIp = checkHasAlreadyAnsweredIp;
+    this.hasAlreadyAnswered = checkHasAlreadyAnswered;
 }
 
 //==============================================================================
@@ -96,6 +99,33 @@ function deletePollById(id_poll,id_user,callback){
                 });
             }
        });
+}
+
+//==============================================================================
+/*Chek if an unauthenticated user has already answered to a poll (with its IP address)
+- callback(err,{hasAnswered:Bool,message:String})*/
+//==============================================================================
+function checkHasAlreadyAnsweredIp(id_poll,ip_address,callback){
+    
+}
+
+//==============================================================================
+/*Chek if an authenticated user has already answered to a poll (with id_user)
+- callback(err,{hasAnswered:Bool,message:String})*/
+//==============================================================================
+function checkHasAlreadyAnswered(id_poll,id_user,callback){
+    Participation.find({id_poll:id_poll,id_user:id_user},function(err, participation) {
+            if(err){
+                callback(err);
+            }
+            if(participation.length){
+                //Send a message saying that you can't vote twice
+                console.log("A participation already exists");
+                callback(null,{message:"You already voted",hasAnswered:true});
+            }else{
+                callback(null,{message:"You can vote",hasAnswered:false});
+            }
+    });
 }
 
 module.exports = PollRepository;

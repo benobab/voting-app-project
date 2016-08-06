@@ -71,7 +71,7 @@ block content
                     $('#addcustomoption').submit(function(event) {
                             event.preventDefault(); // Stops browser from navigating away from page
                             var url = "/poll/"+"#{poll._id}"+"/add/";
-                            $.post(url,$('#votingpoll').serialize(), function( data ) {
+                            $.post(url,$('#addcustomoption').serialize(), function( data ) {
                               var datas = JSON.parse(data);
                               alert(datas.message);
                               if(datas.refresh){
