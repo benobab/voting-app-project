@@ -131,7 +131,7 @@ module.exports = function(app){
                 //Send a message saying that you can't vote twice
                 console.log(parti);
                 console.log("A participation already exists");
-                res.end("You already voted");
+                res.end(JSON.stringify({message:"You already voted",refresh:false}));
             }else{
                 var participation = new Participation({
                 id_user:req.user.twitter.id,
@@ -143,7 +143,7 @@ module.exports = function(app){
                     handleError(req,res,err);
                     return;
                 } 
-                res.end("Thank you for your vote!");
+                res.end(JSON.stringify({message:"Thank you for your vote!",refresh:true}));
                 /*res.redirect('/poll/'+req.params.id);*/ 
             });
             }
@@ -160,7 +160,7 @@ module.exports = function(app){
                 //Send a message saying that you can't vote twice
                 console.log(parti);
                 console.log("A participation already exists");
-                res.end("You already voted");
+                res.end(JSON.stringify({message:"You already voted",refresh:false}));
             }else{
                 var participation = new Participation({
                 ip_address:req.headers['x-forwarded-for'],
@@ -174,7 +174,7 @@ module.exports = function(app){
                     return;
                 }
                 console.log(JSON.stringify(participation));
-                res.end("Thank you for your vote!");
+                res.end(JSON.stringify({message:"Thank you for your vote!",refresh:true}));
                 /*res.redirect('/poll/'+req.params.id);*/ 
             });
             }
@@ -183,6 +183,59 @@ module.exports = function(app){
         }
         
     });
+    
+    
+    app.get('/poll/:id/dataset',function(req, res) {
+       
+       var answers=[];
+       var counts=[];
+       var colors=[];
+       var hoverbackgroundColor=[];
+       //Get the answers for this poll
+       Answer.find({id_poll:req.params.id},function(err,ans){
+                if(err) throw err;
+                console.log("Trying to send right dataset and actually these are the answers: "+ ans);
+                ans.forEach(function(answer,index,array){
+                    console.log('We are foreaching through the answers, the actual one is: '+ answer.title);
+                    answers.push(answer.title);
+                    //Get the participation count foreach answer
+                    Participation.count({id_answer:answer._id},function(err,count){
+                        if(err) throw err;
+                        console.log('Participation count: ' + count);
+                        counts.push(count);
+                        colors.push(getRandomColor());
+                        hoverbackgroundColor.push(getRandomColor());
+                        if (index === array.length - 1) {
+                            var dataset = {
+                                labels:answers,
+                                datasets: [
+                                    {
+                                        data:counts,
+                                        backgroundColor:colors,
+                                        hoverBackgroundColor: hoverbackgroundColor
+                                    }]
+                            };
+                            console.log(JSON.stringify(dataset));
+                            res.end(JSON.stringify(dataset));
+                        }
+                    }); 
+                });
+                
+            });
+       
+    });
+    
+    //====================================================================================================
+    //Helper to generate random color ====================================================================
+    //====================================================================================================
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split('');
+        var color = '#';
+        for (var i = 0; i < 6; i++ ) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
     
     
     //====================================================================================================

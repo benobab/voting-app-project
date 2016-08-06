@@ -26,7 +26,7 @@ block content
                     $(document).ready(function(){
                         /*To run this function when the page is loaded ;-)*/
                         window.onload = function() {
-                          updateChart();
+                          getDataset();
                         };
                         $('#shareOnTwitter').on('click', function(){
                             var pollUrl = window.location.href;
@@ -34,44 +34,21 @@ block content
                             window.location.href = text;
                         });
                         
-                        var updateChart = function(){
+                        var getDataset = function() {
+                            var url = "/poll/"+"#{poll._id}"+"/dataset";
+                            $.get(url, function( data ) {
+                              updateChart(JSON.parse(data));
+                            });
+                        }
+                        
+                        var updateChart = function(data){
+                        console.log(data);
                         var ctx = $('#mychart'); //The chart that is going to be updated
+                        console.log(ctx);
                         console.log("I'll update the chart");
                         var myChart = new Chart(ctx, {
-                            type: 'bar',
-                            data: {
-                                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                                datasets: [{
-                                    label: '# of Votes',
-                                    data: [12, 19, 3, 5, 2, 3],
-                                    backgroundColor: [
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(255, 206, 86, 0.2)',
-                                        'rgba(75, 192, 192, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 159, 64, 0.2)'
-                                    ],
-                                    borderColor: [
-                                        'rgba(255,99,132,1)',
-                                        'rgba(54, 162, 235, 1)',
-                                        'rgba(255, 206, 86, 1)',
-                                        'rgba(75, 192, 192, 1)',
-                                        'rgba(153, 102, 255, 1)',
-                                        'rgba(255, 159, 64, 1)'
-                                    ],
-                                    borderWidth: 1
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    yAxes: [{
-                                        ticks: {
-                                            beginAtZero:true
-                                        }
-                                    }]
-                                }
-                            }
+                            type: 'pie',
+                            data: data
                         });
                     }
                         /*Function to vote*/
@@ -80,9 +57,11 @@ block content
                             event.preventDefault(); // Stops browser from navigating away from page
                             var url = "/poll/"+"#{poll._id}"+"/answer";
                             $.post(url, function( data ) {
-                              updateChart();
-                              alert(data);
-                              
+                              var datas = JSON.parse(data);
+                              alert(datas.message);
+                              if(datas.refresh){
+                                getDataset();   
+                              }
                             });
                         });
                     });
