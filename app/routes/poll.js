@@ -3,27 +3,25 @@ module.exports = function(app){
     var Poll = require("../models/poll");
     var Answer = require("../models/answer");
     var Participation = require("../models/participation");
+    var PollRepository = require("../repositories/pollRepository");
     //==========================================================================
     //Poll =====================================================================
     //==========================================================================
     app.get('/poll/all',function(req,res){
-        console.log("Trying to get all polls");
-        //Get all poll
-        Poll.find({},function(err,polls){
+        var repo = new PollRepository();
+        repo.getAllPolls(function(err,polls){
             if(err) throw err;
-            console.log(polls);
-            //Send them to the res
             res.status(200).render('index',{polls:polls});
         });
     });
     
     app.get('/poll/my',isLoggedIn,function(req,res){
-       Poll.find({id_creator:req.user.twitter.id},function(err,polls){
-           if(err) 
+        var repo = new PollRepository();
+        repo.getPollsOfUser(req.user.twitter.id,function(err,polls){
+            if(err) 
             throw err;
-           console.log("My Polls: "+polls);
-           res.status(200).render('mypolls',{polls:polls});
-       }) 
+           res.status(200).render('mypolls',polls);
+        });
     });
     
     app.get('/poll/new',isLoggedIn,function(req,res){
@@ -63,28 +61,17 @@ module.exports = function(app){
             });
             res.status(200).redirect('/poll/'+poll._id);
         });
-        
-        //Get the poll from the req
-        //Insert it into the database
-       //If success -> redirect to the poll details
-       //If fails -> display an error message in the same page
     });
     
     app.get('/poll/delete/:id',isLoggedIn,function(req, res) {
-       //Check if this is the owner
-       var id = req.params.id;
-       Poll.findById(id,function(err, poll) {
-            if(err) {
-                console.log(err);
-                res.render('mypolls',{err:err});
-            }
-            else if(poll.id_creator === req.user.twitter.id) {
-                poll.remove(function(err){
-                   if(err) throw err;
-                   res.redirect('/poll/my');
-                });
-            }
-       });
+        var repo = new PollRepository();
+        repo.deletePollById(req.params.id,req.user.twitter.id,function(err){
+           if(err){
+               res.render('mypolls',{err:err});
+           }else{
+               res.redirect('/poll/my');
+           }
+        });
     });
     
     app.get('/poll/:id',function(req,res){

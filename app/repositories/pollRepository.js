@@ -1,17 +1,33 @@
 var Poll = require('../models/poll');
 var Answer = require('../models/answer');
+
 function PollRepository(){
+    this.getAllPolls = getAllPolls;
     this.findById = getPollById;
+    this.getPollsOfUser = getPollsOfUser;
     this.getAnswers = getAnswersForPoll;
     this.deletePollById = deletePollById;
+}
+
+//==============================================================================
+/*Get all existing Polls by id (without answers) - callback(err,data)*/
+/*Data structure : polls:[poll]*/
+//==============================================================================
+function getAllPolls(callback){
+    Poll.find({},function(err,polls){
+                if(err){
+                    callback(err);
+                }
+                callback(null,polls);
+            });
 }
 
 //==============================================================================
 /*Get a Poll by id including its answers - callback(err,data)*/
 /*Data structure : {poll:poll,answers:answers}*/
 //==============================================================================
-function getPollById(id,callback){
-    Poll.findById(id,function(err,poll){
+function getPollById(id_poll,callback){
+    Poll.findById(id_poll,function(err,poll){
             if(err){
                     callback(err);
                     return;
@@ -33,24 +49,38 @@ function getPollById(id,callback){
 }
 
 //==============================================================================
-/*Get the answers of a poll - callback(err,data)*/
-/*Data structure :answers:answers*/
+/*Get the polls of a specific user - callback(err,polls)*/
+/*Data structure :{polls:[polls]}*/
 //==============================================================================
-function getAnswersForPoll(id,callback){
-    Answer.find({id_poll:id},function(err,answers){
+function getPollsOfUser(id_user,callback){
+    Poll.find({id_creator:id_user},function(err,polls){
+           if(err){
+                callback(err);
+                return;
+            }
+            callback(null,{polls:polls});
+       });
+}
+
+//==============================================================================
+/*Get the answers of a poll - callback(err,data)*/
+/*Data structure :{answers:answers}*/
+//==============================================================================
+function getAnswersForPoll(id_poll,callback){
+    Answer.find({id_poll:id_poll},function(err,answers){
                 if(err){
                     callback(err);
                     return;
                 }
-                callback(null,answers:answers);
+                callback(null,{answers:answers});
             });
 }
 
 //==============================================================================
 /*Delete a Poll by id - callback(err)*/
 //==============================================================================
-function deletePollById(id,id_user,callback){
-    Poll.findById(id,function(err, poll) {
+function deletePollById(id_poll,id_user,callback){
+    Poll.findById(id_poll,function(err, poll) {
             if(err){
                 callback(err);
                 return;
@@ -67,3 +97,5 @@ function deletePollById(id,id_user,callback){
             }
        });
 }
+
+module.exports = PollRepository;
