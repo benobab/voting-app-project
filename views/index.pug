@@ -4,6 +4,14 @@ block content
         .container
                 .jumbotron.text-center
                         h1.fa.fa-comments Let's share your thoughts
+                        
+                        if isauthenticated
+                                hr
+                                a(href='/poll/new').btn.btn-primary.btn-lg Start a new Poll ?
+                                span  
+                                span  
+                                a(href='/poll/my').btn.btn-warning.btn-lg Manage your polls
+                                
                 if polls
                         .jumbotron.text-center
                             if polls.length === 0
