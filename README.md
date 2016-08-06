@@ -27,5 +27,5 @@
 - [ ] Be able to add a custom option
 - [x] Avoid reloading the whole page each time we try to vote
 - [x] Check if someone has already voted (ip address OR twitter id)
-- [ ] Display chart results
+- [x] Display chart results
 - [ ] Add tests ?
