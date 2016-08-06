@@ -115,6 +115,17 @@ module.exports = function(app){
        });
     });
     
+    app.post('/poll/:id/add',function(req, res) {
+        if(!req.isAuthenticated()){
+            res.end(JSON.stringify({error:"You need to be authenticated to add an option"}));
+        }
+        //Check that he hasn't answered yet
+        //If not
+        //Add the answer
+            //Post the participation
+            //Return message of success of failure
+    });
+    
     app.post('/poll/:id/answer/',function(req,res){
         console.log(req.body); 
         var answerSelected = req.body.answerselected;

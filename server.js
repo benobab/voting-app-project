@@ -32,7 +32,8 @@ app.use(bodyParser()); // get information from html forms
 app.set('view engine','pug'); // set up pug for templating
 
 //Required for passport
-app.use(expressSession({secret:'devSecretYeah'})); // Session secret
+app.use(expressSession({secret:'devSecretYeah',resave: true,
+    saveUninitialized: true})); // Session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
