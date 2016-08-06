@@ -6,26 +6,28 @@ block content
                         h1.fa.fa-comments What a poll!
                 .container.jumbotron
                         h2 #{poll.title}
-                        .container.col-xs-6.well
-                            .row
+                        .container.col-sm-6.col-xs-12.well
+                            .row.text-center
                                 form(id="votingpoll" name="voteforpoll" action="/poll/"+poll._id+"/answer" method="post")
                                     .form-group
                                         select(name="answerselected").form-control
                                           each answer in answers
                                             option(value=answer._id) #{answer.title}
                                         button(type="submit").btn.btn-success Vote
+                                        span  
                                         a#addcustomoptionbtn.btn.btn-warning.navbar-btn(type='button')
                                             i.fa.fa-plus
                                             |  Add custom option
                                 form(id="addcustomoption", style="display:none;").form-inline.row
                                     .form-group
                                         input#customoption.form-control(name='customoption' type='text', placeholder='whatever you want')
+                                    span  
                                     button.btn.btn-primary(type='submit')  + 
                             .row.text-center.col-xs-12
                                 a(href="https://twitter.com/intent/tweet?text=Go%20See%20This%20%Poll%20https://voting-app-project-benobab.c9users.io/poll/" + poll._id).btn.navbar-btn(type='button').twitter-share
                                     i.fa.fa-twitter
                                     |  Share it
-                        .container.col-sm-6.well
+                        .container.col-sm-6
                             canvas#mychart(width="400", height="400")
                 script(type='text/javascript').
                     /*Function to update the chart*/
