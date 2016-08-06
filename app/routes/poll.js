@@ -118,6 +118,7 @@ module.exports = function(app){
     app.post('/poll/:id/answer/',function(req,res){
         console.log(req.body); 
         var answerSelected = req.body.answerselected;
+        console.log("Answer selected: "+ answerSelected);
         //Find if a participation exists
         //If not, add one
         if(req.isAuthenticated()){
