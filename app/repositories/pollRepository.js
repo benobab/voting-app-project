@@ -1,19 +1,69 @@
-var poll = require('../models/poll');
-
+var Poll = require('../models/poll');
+var Answer = require('../models/answer');
 function PollRepository(){
     this.findById = getPollById;
     this.getAnswers = getAnswersForPoll;
     this.deletePollById = deletePollById;
 }
 
+//==============================================================================
+/*Get a Poll by id including its answers - callback(err,data)*/
+/*Data structure : {poll:poll,answers:answers}*/
+//==============================================================================
 function getPollById(id,callback){
-    
+    Poll.findById(id,function(err,poll){
+            if(err){
+                    callback(err);
+                    return;
+                }
+            console.log(poll);
+            //Now that we found the poll, we need its answers
+            getAnswersForPoll(poll._id,function(err,answers){
+                if(err){
+                    callback(err);
+                    return;
+                }
+                //Success
+                callback(null,{
+                    poll:poll,
+                    answers:answers
+                });
+            });
+       });
 }
 
+//==============================================================================
+/*Get the answers of a poll - callback(err,data)*/
+/*Data structure :answers:answers*/
+//==============================================================================
 function getAnswersForPoll(id,callback){
-    
+    Answer.find({id_poll:id},function(err,answers){
+                if(err){
+                    callback(err);
+                    return;
+                }
+                callback(null,answers:answers);
+            });
 }
 
-function deletePollById(id,callback){
-    
+//==============================================================================
+/*Delete a Poll by id - callback(err)*/
+//==============================================================================
+function deletePollById(id,id_user,callback){
+    Poll.findById(id,function(err, poll) {
+            if(err){
+                callback(err);
+                return;
+            }
+            //Check that the current user is the owner of this poll
+            else if(poll.id_creator === id_user) {
+                poll.remove(function(err){
+                   if(err){
+                        callback(err);
+                        return;
+                    }
+                   callback(null);
+                });
+            }
+       });
 }
