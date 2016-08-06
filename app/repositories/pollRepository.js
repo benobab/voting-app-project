@@ -10,6 +10,7 @@ function PollRepository(){
     this.deletePollById = deletePollById;
     this.hasAlreadyAnsweredIp = checkHasAlreadyAnsweredIp;
     this.hasAlreadyAnswered = checkHasAlreadyAnswered;
+    this.postCustomAnswer = addAnAnswerToPoll;
 }
 
 //==============================================================================
@@ -106,7 +107,18 @@ function deletePollById(id_poll,id_user,callback){
 - callback(err,{hasAnswered:Bool,message:String})*/
 //==============================================================================
 function checkHasAlreadyAnsweredIp(id_poll,ip_address,callback){
-    
+    Participation.find({id_poll:id_poll,ip_address:ip_address},function(err, participation) {
+            if(err){
+                callback(err);
+            }
+            if(participation.length){
+                //Send a message saying that you can't vote twice
+                console.log("A participation already exists");
+                callback(null,{message:"You already voted",hasAnswered:true});
+            }else{
+                callback(null,{message:"You can vote",hasAnswered:false});
+            }
+    });
 }
 
 //==============================================================================
@@ -127,5 +139,38 @@ function checkHasAlreadyAnswered(id_poll,id_user,callback){
             }
     });
 }
+
+//==============================================================================
+/*Add an answer to an existing poll, that's a custom answer so that means there 
+is also a participation to create*/
+/*callback(err,{message:String})*/
+//==============================================================================
+function addAnAnswerToPoll(id_poll,answer,callback){
+    var ans = new Answer();
+    ans = answer;
+    ans.save(function(err,answerSaved){
+        if(err){
+            callback(err);
+        }else{
+            //Create the participation
+            var participation = new Participation({
+                        id_user:answer.id_user,
+                        id_answer:answerSaved._id,
+                        id_poll:id_poll
+                        });         
+            participation.save(function(err){
+                if(err){
+                    callback(err);
+                }
+                callback(null,{message:"Thank you for your vote!"});
+            });
+        }
+    });
+    
+}
+
+
+
+
 
 module.exports = PollRepository;

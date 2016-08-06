@@ -19,7 +19,7 @@ block content
                                             |  Add custom option
                                 form(id="addcustomoption", style="display:none;").form-inline.row
                                     .form-group
-                                        input#customoption.form-control(type='text', placeholder='whatever you want')
+                                        input#customoption.form-control(name='customoption' type='text', placeholder='whatever you want')
                                     button.btn.btn-primary(type='submit')  + 
                             .row.text-center.col-xs-12
                                 a(href="https://twitter.com/intent/tweet?text=Go%20See%20This%20%Poll%20https://voting-app-project-benobab.c9users.io/poll/" + poll._id).btn.navbar-btn(type='button').twitter-share
@@ -73,8 +73,10 @@ block content
                             var url = "/poll/"+"#{poll._id}"+"/add/";
                             $.post(url,$('#addcustomoption').serialize(), function( data ) {
                               var datas = JSON.parse(data);
-                              alert(datas.message);
-                              if(datas.refresh){
+                              if(data.message){
+                                alert(datas.message);
+                              }
+                              if(!(datas.err) && !(datas.error)){
                                 getDataset();
                               }
                             });

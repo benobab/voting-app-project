@@ -87,20 +87,49 @@ module.exports = function(app){
     });
     
     app.post('/poll/:id/add',function(req, res) {
+        console.log("Trying to add custom option");
         if(!req.isAuthenticated()){
-            res.end(JSON.stringify({error:"You need to be authenticated to add an option"}));
+            res.end(JSON.stringify({message:"You need to be authenticated to add an option"}));
         }
         //Check that he hasn't answered yet
-        //If not
-        //Add the answer
-            //Post the participation
-            //Return message of success of failure
+        var repo = new PollRepository();
+        var id_poll = req.params.id;
+        var id_user = req.user.twitter.id;
+        console.log("Check if the user already answered");
+        repo.hasAlreadyAnswered(id_poll,id_user,function(err,data){
+            if(err){
+                res.end(err);
+            }
+            if(data.hasAnswered){
+                res.end(JSON.stringify(data));
+            }else{
+                console.log("Geting the new option from the body");
+                console.log("Body: "+req.body);
+                //Get the body to add the answer
+                var customOption = req.body.customoption;
+                if(customOption){ // Be sure it is defined and not null
+                    var answer = new Answer({
+                        title: customOption,
+                        id_poll:id_poll
+                    });
+                    console.log("Creating the answer: "+ answer);
+                    repo.postCustomAnswer(id_poll,answer,function(err,data){
+                        console.log("Posting the answer with data: "+data);
+                       if(err){
+                           res.end(err);
+                       }else{
+                           res.end(JSON.stringify(data));
+                       } 
+                    });
+                }
+            }
+        });
     });
     
     app.post('/poll/:id/answer/',function(req,res){
-        console.log(req.body); 
+        var repo = new PollRepository();
+        //parse the body to know the id of the answer selected
         var answerSelected = req.body.answerselected;
-        console.log("Answer selected: "+ answerSelected);
         //Find if a participation exists
         //If not, add one
         if(req.isAuthenticated()){
